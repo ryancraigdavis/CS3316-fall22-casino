@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "cs3316-fall22-casino"
+version = "0.1.0"
+description = "Casino class for CS3316 Fall 2022"
+authors = ["Ryan Davis <ryandavis7@isu.edu>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "cs3316_fall22_casino"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
