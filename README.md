@@ -1,7 +1,7 @@
 # CS3316-fall22-casino
 Casino class in python for CS3316 Team projects
 
-Your team will clone the repo below and create a casino game as a class within the main casino file. Each team will have a different game to create. Each team will create a branch off of main with the following naming convention: "feature/<team number>-<casino game name>" The point of this project is not to test your coding or problem solving skills, but to give you practice working on a large scale project with many developers. You'll have to deal with conflicts.
+Your team will clone the repo below and create a casino game as a class within the main casino file. Each team will have a different game to create. Each team will create a branch off of main with the following naming convention: "feature/*team number*-*casino game name*" The point of this project is not to test your coding or problem solving skills, but to give you practice working on a large scale project with many developers. You'll have to deal with conflicts.
 
 Your casino game should be its own class, with all the relevant functions within that class. There should thus be one class for each team/game. You'll notice that the file is pretty blank at the beginning. That is because I will be adding stuff to the file as the week goes on. I am doing this on purpose, you will need to rebase and catch your branch up periodically and adapt to the changes that I make. I will NOT make changes over the weekend or on Monday.
 
