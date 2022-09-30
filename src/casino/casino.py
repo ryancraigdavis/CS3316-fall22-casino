@@ -21,8 +21,9 @@ if __name__ == "__main__":
     NewCasino.welcome()
 # start of roulette class
 # this still needs to be able to make changes to said balance from bets
-# and it needs to check for odd or even for bets
+# I didn't put in the check for odd or even yet 
 class playRoulette:
+
     red = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
     black = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
     green = [0]
