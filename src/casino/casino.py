@@ -15,9 +15,10 @@ class HelloCasino:
         """Welcome shouter"""
         print(f"Welcome to the Casino, {self.name}")
 
-
-
-
+# Run main here.
+if __name__ == "__main__":
+    NewCasino = HelloCasino()
+    NewCasino.welcome()
 
 
 class Slots:
