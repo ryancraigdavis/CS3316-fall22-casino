@@ -4,6 +4,7 @@ import os
 import random
 import time
 
+
 class HelloCasino:
     """Welcome to the casino"""
 
@@ -32,45 +33,21 @@ class Slots:
         self.testingMode = False
 
 
-
-
     def clear(self):
         if os.name == 'nt':
             os.system('CLS')
         else:
             os.system('clear')
-
-    def cant_afford(self):
-        print("You do not have enough money to play this game!")
-        time.sleep(2)
-        self.clear()
-        self.fancyProgression("Returning to the casino center")
-        self.clear()
-
-    def broke(self):
-        print("You are totally out of money!")
-        time.sleep(2)
-        self.clear()
-        self.fancyProgression("Being booted out of the casino")
-        exit()
-
-    def fancyProgression(self, message):
-        for i in range(4):
-            print(message)
-            time.sleep(1)
-            message +=(" .")
-            self.clear()
             
 
-    def leave(self):
+    def leave(self, message):
         self.clear()
-        print("Thanks for playing!")
+        print(message)
         time.sleep(2)
         self.clear()
-        self.fancyProgression("Returning to the casino center")
+        print("Returning to the casino center...")
+        time.sleep(2)
         self.clear()
-
-
 
 
     def playAgain(self):
@@ -85,18 +62,14 @@ class Slots:
                     self.play()
                 elif ans =="n":
                     done = True
-                    self.leave()
+                    self.leave("Thanks for playing!")
                 else: 
                     print("Please enter a correct answer")
                     time.sleep(0.8)
                     self.clear()
-
-        elif self.stake > 0:
-            self.cant_afford()
         else:
-            self.broke()
-
-
+            time.sleep(0.5)
+            self.leave("Can't afford to play another round!")
 
 
     def printScore(self):
@@ -124,12 +97,10 @@ class Slots:
         self.balance += win
         self.total_paid_out += win
         if(win > 0):
-            print(Slots.firstWheel + '\t' + Slots.secondWheel + '\t' + Slots.thirdWheel + ' -- You win $' + str(win))
-        else:
-            print(Slots.firstWheel + '\t' + Slots.secondWheel + '\t' + Slots.thirdWheel + ' -- You lose')
-
-
-
+            print(Slots.firstWheel + '\t' + Slots.secondWheel + '\t' + Slots.thirdWheel + ' -- You win $' + str(win) + "!")
+        elif(win <= 0):
+            print(Slots.firstWheel + '\t' + Slots.secondWheel + '\t' + Slots.thirdWheel + ' -- You lose!')
+        time.sleep(1)
 
 
     def spinWheel(self):
@@ -138,8 +109,6 @@ class Slots:
         '''
         rand = random.randint(0, 5)
         return  self.items[rand]
-
-
 
 
     def play(self):
@@ -169,39 +138,14 @@ class Slots:
                     self.play()
                 elif ans =="n":
                     done = True
-                    self.leave()
+                    self.leave("See you next time!")
                 else:
                     self.clear() 
                     print("Please enter a correct answer")
                     time.sleep(0.8)
                     self.clear()
-        elif self.balance > 0:
-            self.cant_afford()
         else:
-            self.broke()
-
-
-    def testMode(self, iterations):
-        self.testingMode = True
-        for i in range(iterations):
-            self.play()
-            self.balance = self.stake
-            print("TESTING MODE\n\n")
-            print("Total collected: $",self.total_collected)
-            print("Total paid out: $",self.total_paid_out)
-        self.clear()
-        print("Iterations:",iterations)
-        total_profit = self.total_collected - self.total_paid_out
-        house_edge = ((total_profit / iterations) / self.stake * 100)
-        print("Total collected: $",self.total_collected)
-        print("Total paid out: $",self.total_paid_out)
-        print("Total profit: $",total_profit)
-        print("House Edge:",house_edge,"%")
-        input("\n\n\nPress ENTER to exit program")
-        exit()
-
-
-
+            self.leave("Can't afford to play!")
 
 
 #Balance will be integrated with the Casino class in the future. For now, this is for testing purposes only. 
