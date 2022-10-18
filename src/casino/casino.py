@@ -5,8 +5,6 @@ import random
 import pygame as pg
 
 
-
-
 class HelloCasino:
     """Welcome to the casino"""
 
