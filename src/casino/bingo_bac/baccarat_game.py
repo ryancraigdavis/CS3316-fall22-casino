@@ -38,20 +38,19 @@ def play():
     print('Banker has score of\t' + str(banker_score))
 
     # Natural
-    if player_score in [8, 9] or banker_score in [8, 9]:
+
+    def bankerVSplayer():
         if player_score != banker_score:
             return OUTCOME[banker_score > player_score]
         else:
             return OUTCOME[2]
 
-    # Player has low score
-    if player_score in irange(0, 5):
-        # Player get's a third card
-        player_hand.append(random.choice(CARDS))
-        player_third = compute_score([player_hand[2]])
-        print('Player gets a third card:\t' + player_hand[2])
+    if player_score in [8, 9] or banker_score in [8, 9]:
+        return bankerVSplayer()
 
-        # Determine if banker needs a third card
+    # Player has low score
+
+    def bankerDrawMaybe():
         if (banker_score == 6 and player_third in [6, 7]) or \
            (banker_score == 5 and player_third in irange(4, 7)) or \
            (banker_score == 4 and player_third in irange(2, 7)) or \
@@ -60,10 +59,22 @@ def play():
             banker_hand.append(random.choice(CARDS))
             print('Banker gets a third card:\t' + banker_hand[2])
 
-    elif player_score in [6, 7]:
+    def bankerDrawTrue():
         if banker_score in irange(0, 5):
             banker_hand.append(random.choice(CARDS))
             print('Banker gets a third card:\t' + banker_hand[2])
+
+    if player_score in irange(0, 5):
+        # Player get's a third card
+        player_hand.append(random.choice(CARDS))
+        player_third = compute_score([player_hand[2]])
+        print('Player gets a third card:\t' + player_hand[2])
+
+        # Determine if banker needs a third card
+        bankerDrawMaybe()
+
+    elif player_score in [6, 7]:
+        bankerDrawTrue()
 
     # Compute the scores again and return the outcome
     player_score = compute_score(player_hand)
