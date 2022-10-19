@@ -3,6 +3,7 @@
 import os
 import random
 from random import randint
+from random import randint
 
 class Craps:
 
@@ -146,8 +147,8 @@ class Craps:
 
         # Roll the dice
         print("Coming Out ...")
-        rand_dice_1 = self.random_roll()
-        rand_dice_2 = self.random_roll()
+        rand_dice_1 = self.self.random_roll()
+        rand_dice_2 = self.self.random_roll()
         # Craps lingo
         rand_sum = rand_dice_2 + rand_dice_1
         print("You rolled", rand_dice_1, "and", rand_dice_2)
@@ -397,7 +398,6 @@ class Craps:
 #     def welcome(self):
 #         """Welcome shouter"""
 #         print(f"Welcome to the Casino, {self.name}")
-
 
 
 
