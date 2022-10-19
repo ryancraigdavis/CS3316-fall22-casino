@@ -30,7 +30,6 @@ class Slots:
         self.items = ["CHERRY", "LEMON", "ORANGE", "PLUM", "BELL", "BAR"]
         self.total_collected = 0
         self.total_paid_out = 0
-        self.testingMode = False
 
 
     def clear(self):
@@ -50,26 +49,44 @@ class Slots:
         self.clear()
 
 
+    def runForIfContinueOrNot(self, ans):
+        if ans =="y":
+            done = True
+            self.play()
+        elif ans == "n":
+            done = True
+            self.leave("Thanks for playing!")
+        else:
+            print("Please enter a correct answer")
+            time.sleep(0.8)
+            self.clear()
+        return done
+
+
+    def whilePlayAgain(self, done):
+        print("You now have: $",self.balance," Dollars.")
+        while (done != True):
+            ans = input("""Would you like to play again?
+            \n\nYes(y)\t\t\tNo(n)""")
+            done = self.runForIfContinueOrNot(ans.lower()) 
+
+
     def playAgain(self):
         done = False
         if self.balance >= self.stake:
-            print("You now have: $",self.balance," Dollars.")
-            while (done != True):
-                ans = input("""Would you like to play again?\n\nYes(y)\t\t\tNo(n)""")
-                ans = ans.lower()
-                if ans == "y":
-                    done = True
-                    self.play()
-                elif ans =="n":
-                    done = True
-                    self.leave("Thanks for playing!")
-                else: 
-                    print("Please enter a correct answer")
-                    time.sleep(0.8)
-                    self.clear()
+            self.whilePlayAgain(done)
         else:
             time.sleep(0.5)
             self.leave("Can't afford to play another round!")
+
+
+    def whichCherry(self):
+        """Determines which jackpot the player gets from
+        CHERRY being on the 1st wheel"""
+        if Slots.secondWheel == "CHERRY":
+            return 5
+        else:
+            return 2
 
     def winCalc(self):
         """
@@ -89,17 +106,14 @@ class Slots:
                 }
         win = winDict.get(allSlots, 0)
         if (win == 0) and (Slots.firstWheel == "CHERRY"):
-            if (Slots.secondWheel == "CHERRY"): 
-                win = 5
-            else:
-                win = 2
+            return self.whichCherry()
         return win
 
     def printScore(self):
         """
         prints the current score and acts as a runner for winCalc
         """
-        win = winCalc(self)
+        win = self.winCalc()
         self.balance += win
         self.total_paid_out += win
         if win > 0:
@@ -124,10 +138,11 @@ class Slots:
             )
         time.sleep(1)
 
+
     def spinWheel(self):
-        '''
+        """
         returns a random item from the wheel
-        '''
+        """
         rand = random.randint(0, 5)
         return  self.items[rand]
 
@@ -140,8 +155,7 @@ class Slots:
         Slots.secondWheel = self.spinWheel()
         Slots.thirdWheel = self.spinWheel()
         self.printScore()
-        if self.testingMode == False:
-            self.playAgain()
+        self.playAgain()
 
 
     def welcome(self):
@@ -176,9 +190,3 @@ balance = 500
 #uncomment next two lines to play slots
 #Play_Slots = Slots(balance)
 #Play_Slots.welcome()
-
-
-# uncomment next three lines for testing mode
-#Iterations = 10000
-#test_slots = Slots(balance)
-#test_slots.testMode(10000)
