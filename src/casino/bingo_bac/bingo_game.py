@@ -3,10 +3,10 @@ import random
 
 pg.init()
 
-screen = pg.display.set_mode((800,600))
+screen = pg.display.set_mode((800, 600))
 screen_rect = screen.get_rect()
 clock = pg.time.Clock()
-done = False
+
 
 class Number:
     def __init__(self):
@@ -32,14 +32,21 @@ class Number:
     def draw(self, surf):
         surf.blit(self.image, self.rect)
 
-num = Number()
 
-while not done:
-    for event in pg.event.get():
-        if event.type == pg.QUIT:
-            done = True
-    screen.fill((0,0,0))
-    num.update()
-    num.draw(screen)
-    pg.display.update()
-    clock.tick(60)
+def playBingo():
+    num = Number()
+
+    done = False
+    while not done:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                done = True
+        screen.fill((0,0,0))
+        num.update()
+        num.draw(screen)
+        pg.display.update()
+        clock.tick(60)
+
+
+if __name__ == "__main__":
+    playBingo()

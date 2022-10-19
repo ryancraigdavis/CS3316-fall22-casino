@@ -17,7 +17,6 @@ def compute_score(hand):
 
 
 
-
 def play():
 
     player_hand = [
@@ -88,4 +87,6 @@ def play():
     else:
         return OUTCOME[2]
 
-print(play())
+
+if __name__ == "__main__":
+    print(play())
