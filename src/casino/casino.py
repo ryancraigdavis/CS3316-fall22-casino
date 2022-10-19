@@ -71,37 +71,58 @@ class Slots:
             time.sleep(0.5)
             self.leave("Can't afford to play another round!")
 
+    def winCalc(self):
+        """
+        Calculates the current score
+        """
+        Slots.clear
+        allSlots = Slots.firstWheel + " " + Slots.secondWheel + " " + Slots.thirdWheel
+        winDict = {
+                "CHERRY CHERRY CHERRY": 7;
+                "ORANGE ORANGE ORANGE": 10;
+                "PLUM PLUM PLUM": 14;
+                "BELL BELL BELL": 20;
+                "BAR BAR BAR": 250;
+                "ORANGE ORANGE BAR": 10;
+                "PLUM PLUM BAR": 14;
+                "BELL BELL BAR": 20;
+                }
+        win = winDict.get(allSlots, 0)
+        if (win == 0) and (Slots.firstWheel == "CHERRY"):
+            if (Slots.secondWheel == "CHERRY"): 
+                win = 5
+            else:
+                win = 2
+        return win
 
     def printScore(self):
-        '''
-        prints the current score
-        '''
-        Slots.clear
-        if((Slots.firstWheel == "CHERRY") and (Slots.secondWheel != "CHERRY")):
-            win = 2
-        elif((Slots.firstWheel == "CHERRY") and (Slots.secondWheel == "CHERRY") and (Slots.thirdWheel != "CHERRY")):
-            win = 5
-        elif((Slots.firstWheel == "CHERRY") and (Slots.secondWheel == "CHERRY") and (Slots.thirdWheel == "CHERRY")):
-            win = 7
-        elif((Slots.firstWheel == "ORANGE") and (Slots.secondWheel == "ORANGE") and ((Slots.thirdWheel == "ORANGE") or (Slots.thirdWheel == "BAR"))):
-            win = 10
-        elif((Slots.firstWheel == "PLUM") and (Slots.secondWheel == "PLUM") and ((Slots.thirdWheel == "PLUM") or (Slots.thirdWheel == "BAR"))):
-            win = 14
-        elif((Slots.firstWheel == "BELL") and (Slots.secondWheel == "BELL") and ((Slots.thirdWheel == "BELL") or (Slots.thirdWheel == "BAR"))):
-            win = 20
-        elif((Slots.firstWheel == "BAR") and (Slots.secondWheel == "BAR") and (Slots.thirdWheel == "BAR")):
-            win = 250
-        else:
-            win = 0
-
+        """
+        prints the current score and acts as a runner for winCalc
+        """
+        win = winCalc(self)
         self.balance += win
         self.total_paid_out += win
-        if(win > 0):
-            print(Slots.firstWheel + '\t' + Slots.secondWheel + '\t' + Slots.thirdWheel + ' -- You win $' + str(win) + "!")
-        elif(win <= 0):
-            print(Slots.firstWheel + '\t' + Slots.secondWheel + '\t' + Slots.thirdWheel + ' -- You lose!')
+        if win > 0:
+            print(
+                Slots.firstWheel
+                + "\t"
+                + Slots.secondWheel
+                + "\t"
+                + Slots.thirdWheel
+                + " -- You win $"
+                + str(win)
+                + "!"
+            )
+        else:
+            print(
+                Slots.firstWheel
+                + "\t"
+                + Slots.secondWheel
+                + "\t"
+                + Slots.thirdWheel
+                + " -- You lose!"
+            )
         time.sleep(1)
-
 
     def spinWheel(self):
         '''
