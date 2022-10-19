@@ -78,14 +78,14 @@ class Slots:
         Slots.clear
         allSlots = Slots.firstWheel + " " + Slots.secondWheel + " " + Slots.thirdWheel
         winDict = {
-                "CHERRY CHERRY CHERRY": 7;
-                "ORANGE ORANGE ORANGE": 10;
-                "PLUM PLUM PLUM": 14;
-                "BELL BELL BELL": 20;
-                "BAR BAR BAR": 250;
-                "ORANGE ORANGE BAR": 10;
-                "PLUM PLUM BAR": 14;
-                "BELL BELL BAR": 20;
+                "CHERRY CHERRY CHERRY": 7,
+                "ORANGE ORANGE ORANGE": 10,
+                "PLUM PLUM PLUM": 14,
+                "BELL BELL BELL": 20,
+                "BAR BAR BAR": 250,
+                "ORANGE ORANGE BAR": 10,
+                "PLUM PLUM BAR": 14,
+                "BELL BELL BAR": 20,
                 }
         win = winDict.get(allSlots, 0)
         if (win == 0) and (Slots.firstWheel == "CHERRY"):
