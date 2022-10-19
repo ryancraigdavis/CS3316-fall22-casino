@@ -2,19 +2,18 @@
 """A set of various casino games as classes"""
 import os
 import random
+from random import randint
 
-
-class craps:
+class Craps:
 
     # Dice constant
     MIN = 1
     MAX = 6
 
     # Imports random integer
-    from random import randint
 
     # Main Program
-    def main():
+    def main(self):
 
         # Prints ascii title screen
         print("")
@@ -45,7 +44,6 @@ class craps:
 
         # Initial boolean variables for validation and program loop
         keepGoing = True
-        validate = True
 
         # Starting chip amount
         user_chips = 10000
@@ -53,33 +51,12 @@ class craps:
         # Validation Loop
         while keepGoing:
             # Validates chip wager amount
-            while validate:
-                wager = input(
-                    "You have "
-                    + str(user_chips)
-                    + " chips. How many chips would you like to wager?: "
-                )
-                try:
-                    wager = int(wager)
-                    if (wager >= 1) and (wager <= user_chips):
-                        validate = False
-                # Validates input type
-                except:
-                    print("Not a valid wager.")
-
+            wager = self.getValidWager(user_chips)
+            
             # Bet type?
-            print("What type of bet would you like to place?")
-            type_of_bet = input(
-                "(Enter 'p' to bet on Pass Line or 'dp' to bet on Dont Pass Line): "
-            )
-            # PASS
-            if type_of_bet == "p" or type_of_bet == "P":
-                user_chips = pass_line_bet(user_chips, wager)
-                print("You now have", (user_chips), "chips.")
-            # DONT PASS
-            elif type_of_bet == "dp" or type_of_bet == "DP":
-                user_chips = dont_pass_bet(user_chips, wager)
-                print("You now have", (user_chips), "chips.")
+            user_chips = self.bet(user_chips, wager)
+
+            
             # Out of chips?
             if user_chips == 0:
                 print("You have lost all your chips. Better luck next time!")
@@ -96,8 +73,39 @@ class craps:
                     print("You left with", (user_chips), "chips.")
                     print("Thanks for playing. Have a nice day.")
                     keepGoing = False
+            
+    def getValidWager(self, user_chips):
+        validate = False
+        while not validate:
+            wager = input(
+                "You have "
+                + str(user_chips)
+                + " chips. How many chips would you like to wager?: "
+            )
+            try:
+                wager = int(wager)
+                if (wager >= 1) and (wager <= user_chips):
+                    validate = True
+            # Validates input type
+            except:
+                print("Not a valid wager.")
+        return wager
 
-            validate = True
+    def bet(self, user_chips, wager):
+        print("What type of bet would you like to place?")
+        type_of_bet = input(
+            "(Enter 'p' to bet on Pass Line or 'dp' to bet on Dont Pass Line): "
+        )
+        # PASS
+        if type_of_bet.lower() == "p":
+            user_chips = self.pass_line_bet(user_chips, wager)
+            print("You now have", (user_chips), "chips.")
+            return user_chips
+        # DONT PASS
+        elif type_of_bet.lower() == "dp":
+            user_chips = self.dont_pass_bet(user_chips, wager)
+            print("You now have", (user_chips), "chips.")
+            return user_chips
 
     # Function:
     ##  pass_line_bet
@@ -111,7 +119,7 @@ class craps:
     ##  wager
     ##Returns:
     ##  user_chips
-    def pass_line_bet(user_chips, wager):
+    def pass_line_bet(self, user_chips, wager):
 
         # Initial boolean variables for validation loops
         validate = True
@@ -119,8 +127,8 @@ class craps:
 
         # Roll the dice
         print("Coming Out ...")
-        rand_dice_1 = random_roll()
-        rand_dice_2 = random_roll()
+        rand_dice_1 = self.random_roll()
+        rand_dice_2 = self.random_roll()
         # Craps lingo
         rand_sum = rand_dice_2 + rand_dice_1
         print("You rolled", rand_dice_1, "and", rand_dice_2)
@@ -128,7 +136,7 @@ class craps:
         # Craps: loose PASS LINE bet
         if (rand_sum == 2) or (rand_sum == 3) or (rand_sum == 12):
             user_chips -= wager
-            print(names(rand_dice_1, rand_dice_2))
+            print(self.names(rand_dice_1, rand_dice_2))
             # Craps lingo
             print("Crap Out!")
             print("Your bet LOOSES")
@@ -137,7 +145,7 @@ class craps:
         elif (rand_sum == 7) or (rand_sum == 11):
             user_chips += wager
             # Craps lingo
-            print(names(rand_dice_1, rand_dice_2))
+            print(self.names(rand_dice_1, rand_dice_2))
             print("Natural Winner")
             print("Your bet WINS")
 
@@ -178,21 +186,21 @@ class craps:
                                     )
                 # Roll again (point established)
                 continued_rolls = input("(Press 'enter' to roll again) ")
-                continued_roll_1 = random_roll()
-                continued_roll_2 = random_roll()
+                continued_roll_1 = self.random_roll()
+                continued_roll_2 = self.random_roll()
 
                 print("You rolled", continued_roll_1, "and", continued_roll_2)
                 continued_rolls = continued_roll_1 + continued_roll_2
             # Seven out: PASS LINE looses (point established)
             if continued_rolls == 7:
                 user_chips -= wager
-                print(names(continued_roll_1, continued_roll_2))
+                print(self.names(continued_roll_1, continued_roll_2))
                 print("Seven Out")
                 print("Your bet LOOSES")
             # PASS LINE wins (point established)
             elif continued_rolls == first_rand_sum:
                 user_chips += wager
-                print(names(continued_roll_1, continued_roll_2))
+                print(self.names(continued_roll_1, continued_roll_2))
                 print("Your bet WINS")
 
         return user_chips
@@ -209,31 +217,31 @@ class craps:
     ##  wager
     ##Returns:
     ##  user_chips
-    def dont_pass_bet(user_chips, wager):
+    def dont_pass_bet(self, user_chips, wager):
 
         validate = True
         doubleCheck = True
 
         print("Coming Out ...")
-        rand_dice_1 = random_roll()
-        rand_dice_2 = random_roll()
+        rand_dice_1 = self.random_roll()
+        rand_dice_2 = self.random_roll()
         rand_sum = rand_dice_2 + rand_dice_1
         print("You rolled", rand_dice_1, "and", rand_dice_2)
 
         if (rand_sum == 2) or (rand_sum == 3):
             user_chips += wager
-            print(names(rand_dice_1, rand_dice_2))
+            print(self.names(rand_dice_1, rand_dice_2))
             print("Craps")
             print("Your bet WINS")
 
         elif rand_sum == 12:
-            print(names(rand_dice_1, rand_dice_2))
+            print(self.names(rand_dice_1, rand_dice_2))
             print("Push")
             print("Your bet is BARRED")
 
         elif (rand_sum == 7) or (rand_sum == 11):
             user_chips -= wager
-            print(names(rand_dice_1, rand_dice_2))
+            print(self.names(rand_dice_1, rand_dice_2))
             print("Natural")
             print("Your bet LOOSES")
 
@@ -269,20 +277,20 @@ class craps:
                                 )
                 ###fixing
                 continued_rolls = input("(Press 'enter' to roll again): ")
-                continued_roll_1 = random_roll()
-                continued_roll_2 = random_roll()
+                continued_roll_1 = self.random_roll()
+                continued_roll_2 = self.random_roll()
                 print("You rolled", continued_roll_1, "and", continued_roll_2)
                 continued_rolls = continued_roll_1 + continued_roll_2
 
             if continued_rolls == 7:
                 user_chips += wager
-                print(names(continued_roll_1, continued_roll_2))
+                print(self.names(continued_roll_1, continued_roll_2))
                 print("Seven Out")
                 print("Your bet WINS")
 
             elif continued_rolls == first_rand_sum:
                 user_chips -= wager
-                print(names(continued_roll_1, continued_roll_2))
+                print(self.names(continued_roll_1, continued_roll_2))
                 print("Your bet LOOSES")
 
         return user_chips
@@ -297,7 +305,7 @@ class craps:
     ##  random_number
     ##Returns:
     ##  none
-    def dice_roll(random_number):
+    def dice_roll(self, random_number):
 
         # ascii dice (1-6)
         if random_number == 6:
@@ -341,9 +349,6 @@ class craps:
             print("|   *   |")
             print("|       |")
             print(" ------- ")
-
-    # Function:
-    ##  random_roll
     ##Description:
     ##  Simulates dice being thrown
     ##Calls:
@@ -353,11 +358,11 @@ class craps:
     ##  dice2
     ##Returns:
     ##  random_number
-    def random_roll():
+    def random_roll(self):
 
         # Throw dice
-        random_number = randint(MIN, MAX)
-        dice_roll(random_number)
+        random_number = random.randint(self.MIN, self.MAX)
+        self.dice_roll(random_number)
 
         return random_number
 
@@ -372,7 +377,7 @@ class craps:
     ##  dice2
     ##Returns:
     ##  name
-    def names(dice1, dice2):
+    def names(self, dice1, dice2):
 
         # Craps lingo: dice sum result (2-12)
         # 2
@@ -426,22 +431,20 @@ class craps:
 
         return name
 
-    main()
+
+# class HelloCasino:
+#     """Welcome to the casino"""
+
+#     def __init__(self):
+#         """Inits the players name"""
+#         self.name = "Joe"
+
+#     def welcome(self):
+#         """Welcome shouter"""
+#         print(f"Welcome to the Casino, {self.name}")
 
 
-class HelloCasino:
-    """Welcome to the casino"""
-
-    def __init__(self):
-        """Inits the players name"""
-        self.name = "Joe"
-
-    def welcome(self):
-        """Welcome shouter"""
-        print(f"Welcome to the Casino, {self.name}")
 
 
-# Run main here.
-if __name__ == "__main__":
-    NewCasino = HelloCasino()
-    NewCasino.welcome()
+craps = Craps()
+craps.main()
