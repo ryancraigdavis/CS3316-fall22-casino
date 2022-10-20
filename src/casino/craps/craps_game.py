@@ -3,7 +3,6 @@
 import os
 import random
 from random import randint
-from random import randint
 
 class Craps:
 
@@ -126,6 +125,7 @@ class Craps:
 
             print("You rolled", continued_roll_1, "and", continued_roll_2)
             continued_rolls = continued_roll_1 + continued_roll_2
+            return first_rand_sum, continued_rolls, wager, user_chips, continued_roll_1, continued_roll_2
             
     # Function:
     ##  pass_line_bet
@@ -174,7 +174,7 @@ class Craps:
             first_rand_sum = rand_sum
             continued_rolls = 0
             # Establish point
-            self.whilePass(first_rand_sum, continued_rolls, wager, user_chips)
+            first_rand_sum, continued_rolls, wager, user_chips, continued_roll_1, continued_roll_2 = self.whileDontPass(first_rand_sum, continued_rolls, wager, user_chips)
             # Seven out: PASS LINE looses (point established)
             if continued_rolls == 7:
                 user_chips -= wager
@@ -216,7 +216,7 @@ class Craps:
                         "Enter the amount you would like to increase your bet: "
                     )
                 )
-        return doubleCheck
+        return doubleCheck, wager
 
     def doubleCheckPass(self, wager, user_chips):
         doubleCheck = 'true'
@@ -226,7 +226,7 @@ class Craps:
                     "Enter the amount you would like to increase your bet: "
                 )
             )
-            doubleCheck = self.validatePass(wager, newWager, user_chips)    
+            doubleCheck, wager = self.validatePass(wager, newWager, user_chips)    
         return newWager
    
     def whileDontPass(self, first_rand_sum, continued_rolls, wager, user_chips):
@@ -243,6 +243,7 @@ class Craps:
             continued_roll_2 = self.random_roll()
             print("You rolled", continued_roll_1, "and", continued_roll_2)
             continued_rolls = continued_roll_1 + continued_roll_2
+            return first_rand_sum, continued_rolls, wager, user_chips, continued_roll_1, continued_roll_2
 
     def dont_pass_bet(self, user_chips, wager):
 
@@ -275,7 +276,7 @@ class Craps:
         else:
             first_rand_sum = rand_sum
             continued_rolls = 0
-            self.whileDontPass(first_rand_sum, continued_rolls, wager, user_chips)           
+            first_rand_sum, continued_rolls, wager, user_chips, continued_roll_1, continued_roll_2 = self.whileDontPass(first_rand_sum, continued_rolls, wager, user_chips)           
             if continued_rolls == 7:
                 user_chips += wager
                 print(self.names(continued_roll_1, continued_roll_2))
