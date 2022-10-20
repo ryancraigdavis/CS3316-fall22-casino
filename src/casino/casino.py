@@ -28,8 +28,6 @@ class Slots:
         self.balance = balance
         self.stake = 5
         self.items = ["CHERRY", "LEMON", "ORANGE", "PLUM", "BELL", "BAR"]
-        self.total_collected = 0
-        self.total_paid_out = 0
 
 
     def clear(self):
@@ -63,21 +61,21 @@ class Slots:
         return done
 
 
-    def whilePlayAgain(self, done):
-        print("You now have: $",self.balance," Dollars.")
+    def canPlayAgain(self, addedStr):
+        done = False
+        print(f"You have ${self.balance} Dollars.")
         while (done != True):
-            ans = input("""Would you like to play again?
+            ans = input(f"""Would you like to play {addedStr}?
             \n\nYes(y)\t\t\tNo(n)""")
             done = self.runForIfContinueOrNot(ans.lower()) 
 
 
-    def playAgain(self):
-        done = False
+    def playAgain(self, addedStr):
         if self.balance >= self.stake:
-            self.whilePlayAgain(done)
+            self.canPlayAgain(addedStr)
         else:
             time.sleep(0.5)
-            self.leave("Can't afford to play another round!")
+            self.leave("Can't afford to play!")
 
 
     def whichCherry(self):
@@ -87,6 +85,7 @@ class Slots:
             return 5
         else:
             return 2
+
 
     def winCalc(self):
         """
@@ -109,13 +108,13 @@ class Slots:
             return self.whichCherry()
         return win
 
+
     def printScore(self):
         """
         prints the current score and acts as a runner for winCalc
         """
         win = self.winCalc()
         self.balance += win
-        self.total_paid_out += win
         if win > 0:
             print(
                 Slots.firstWheel
@@ -149,44 +148,24 @@ class Slots:
 
     def play(self):
         self.balance -= self.stake
-        self.total_collected += self.stake
         self.clear()
         Slots.firstWheel = self.spinWheel()
         Slots.secondWheel = self.spinWheel()
         Slots.thirdWheel = self.spinWheel()
         self.printScore()
-        self.playAgain()
+        self.playAgain("again")
 
 
     def welcome(self):
         self.clear()
-        done = False
-
-        if self.balance >= self.stake:
-            print("Welcome to Slots!\nYou currently have: $",self.balance , "Dollars.\n")
-            while (done != True):
-                print("The cost is $",self.stake,"per game. Would you like to play?")
-                ans = input("\n\nYes(y)\t\t\tNo(n)")
-                ans = ans.lower()
-                if ans == "y":
-                    done = True
-                    self.play()
-                elif ans =="n":
-                    done = True
-                    self.leave("See you next time!")
-                else:
-                    self.clear() 
-                    print("Please enter a correct answer")
-                    time.sleep(0.8)
-                    self.clear()
-        else:
-            self.leave("Can't afford to play!")
+        print("Welcome to Slots!")
+        print(f"The cost is ${self.stake} per game.")
+        self.playAgain('')
 
 
-#Balance will be integrated with the Casino class in the future. For now, this is for testing purposes only. 
-balance = 500
-
-
-#uncomment next two lines to play slots
+#uncomment next three lines to play slots (Will be implemented into
+# the HelloCasino class once the relevant functions are added
+# to select game)
+#balance = 500
 #Play_Slots = Slots(balance)
 #Play_Slots.welcome()
