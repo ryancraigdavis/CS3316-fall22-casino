@@ -93,19 +93,21 @@ class Craps:
 
     def bet(self, user_chips, wager):
         print("What type of bet would you like to place?")
-        type_of_bet = input(
-            "(Enter 'p' to bet on Pass Line or 'dp' to bet on Dont Pass Line): "
-        )
-        # PASS
-        if type_of_bet.lower() == "p":
-            user_chips = self.pass_line_bet(user_chips, wager)
-            print("You now have", (user_chips), "chips.")
-            return user_chips
-        # DONT PASS
-        elif type_of_bet.lower() == "dp":
-            user_chips = self.dont_pass_bet(user_chips, wager)
-            print("You now have", (user_chips), "chips.")
-            return user_chips
+        type_of_bet = ''
+        while type_of_bet != 'p' or 'dp':
+            type_of_bet = input(
+                "(Enter 'p' to bet on Pass Line or 'dp' to bet on Dont Pass Line): "
+            )
+            # PASS
+            if type_of_bet.lower() == "p":
+                user_chips = self.pass_line_bet(user_chips, wager)
+                print("You now have", (user_chips), "chips.")
+                return user_chips
+            # DONT PASS
+            elif type_of_bet.lower() == "dp":
+                user_chips = self.dont_pass_bet(user_chips, wager)
+                print("You now have", (user_chips), "chips.")
+        return user_chips
 
             
     def whilePass(self, first_rand_sum, continued_rolls, wager, user_chips):
