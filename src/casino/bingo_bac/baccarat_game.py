@@ -37,6 +37,26 @@ def bankerDrawTrue(bScore, bHand):
         bHand.append(random.choice(CARDS))
         print('Banker gets a third card:\t' + bHand[2])
 
+def checkPlayerScore(pScore, pHand, pThird, bScore, bHand):
+    if pScore in irange(0, 5):
+        # Player get's a third card
+        pHand.append(random.choice(CARDS))
+        pThird = compute_score([pHand[2]])
+        print('Player gets a third card:\t' + pHand[2])
+
+        # Determine if banker needs a third card
+        bankerDrawMaybe(bScore, pThird, bHand)
+
+    elif pScore in [6, 7]:
+        bankerDrawTrue(bScore, bHand)
+
+def compareScores(pScore, bScore):
+    if pScore != bScore:
+        return OUTCOME[bScore > pScore]
+    else:
+        return OUTCOME[2]
+    
+
 def play():
 
     player_hand = [
@@ -61,22 +81,9 @@ def play():
         return bankerVSplayer(player_score, banker_score)
 
     # Player has low score
-    def checkPlayerScore(pScore, pHand, pThird):
-        if pScore in irange(0, 5):
-            # Player get's a third card
-            pHand.append(random.choice(CARDS))
-            pThird = compute_score([pHand[2]])
-            print('Player gets a third card:\t' + pHand[2])
+    player_third = int
 
-            # Determine if banker needs a third card
-            bankerDrawMaybe(banker_score, player_third, banker_hand)
-
-        elif player_score in [6, 7]:
-            bankerDrawTrue(banker_score, banker_hand)
-
-    player_third
-
-    checkPlayerScore(player_score, player_hand, player_third)
+    checkPlayerScore(player_score, player_hand, player_third, banker_score, banker_hand)
 
     # Compute the scores again and return the outcome
     player_score = compute_score(player_hand)
@@ -85,10 +92,7 @@ def play():
     print('Player has final score of\t' + str(player_score))
     print('Banker has final score of\t' + str(banker_score))
 
-    if player_score != banker_score:
-        return OUTCOME[banker_score > player_score]
-    else:
-        return OUTCOME[2]
+    compareScores(player_score, banker_score)
 
 
 if __name__ == "__main__":
