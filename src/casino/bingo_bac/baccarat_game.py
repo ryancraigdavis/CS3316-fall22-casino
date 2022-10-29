@@ -17,6 +17,26 @@ def compute_score(hand):
 
 
 
+# functions for play
+def bankerVSplayer(pScore, bScore):
+    if pScore != bScore:
+        return OUTCOME[bScore > pScore]
+    else:
+        return OUTCOME[2]
+def bankerDrawMaybe(bankerS, third, bHand):
+    if (bankerS == 6 and third in [6, 7]) or \
+       (bankerS == 5 and third in irange(4, 7)) or \
+       (bankerS == 4 and third in irange(2, 7)) or \
+       (bankerS == 3 and third != 8) or \
+       (bankerS in [0, 1, 2]):
+        bHand.append(random.choice(CARDS))
+        print('Banker gets a third card:\t' + bHand[2])
+
+def bankerDrawTrue(bScore, bHand):
+    if bScore in irange(0, 5):
+        bHand.append(random.choice(CARDS))
+        print('Banker gets a third card:\t' + bHand[2])
+
 def play():
 
     player_hand = [
@@ -37,43 +57,26 @@ def play():
     print('Banker has score of\t' + str(banker_score))
 
     # Natural
-
-    def bankerVSplayer():
-        if player_score != banker_score:
-            return OUTCOME[banker_score > player_score]
-        else:
-            return OUTCOME[2]
-
     if player_score in [8, 9] or banker_score in [8, 9]:
-        return bankerVSplayer()
+        return bankerVSplayer(player_score, banker_score)
 
     # Player has low score
+    def checkPlayerScore(pScore, pHand, pThird):
+        if pScore in irange(0, 5):
+            # Player get's a third card
+            pHand.append(random.choice(CARDS))
+            pThird = compute_score([pHand[2]])
+            print('Player gets a third card:\t' + pHand[2])
 
-    def bankerDrawMaybe():
-        if (banker_score == 6 and player_third in [6, 7]) or \
-           (banker_score == 5 and player_third in irange(4, 7)) or \
-           (banker_score == 4 and player_third in irange(2, 7)) or \
-           (banker_score == 3 and player_third != 8) or \
-           (banker_score in [0, 1, 2]):
-            banker_hand.append(random.choice(CARDS))
-            print('Banker gets a third card:\t' + banker_hand[2])
+            # Determine if banker needs a third card
+            bankerDrawMaybe(banker_score, player_third, banker_hand)
 
-    def bankerDrawTrue():
-        if banker_score in irange(0, 5):
-            banker_hand.append(random.choice(CARDS))
-            print('Banker gets a third card:\t' + banker_hand[2])
+        elif player_score in [6, 7]:
+            bankerDrawTrue(banker_score, banker_hand)
 
-    if player_score in irange(0, 5):
-        # Player get's a third card
-        player_hand.append(random.choice(CARDS))
-        player_third = compute_score([player_hand[2]])
-        print('Player gets a third card:\t' + player_hand[2])
+    player_third
 
-        # Determine if banker needs a third card
-        bankerDrawMaybe()
-
-    elif player_score in [6, 7]:
-        bankerDrawTrue()
+    checkPlayerScore(player_score, player_hand, player_third)
 
     # Compute the scores again and return the outcome
     player_score = compute_score(player_hand)
