@@ -1,14 +1,10 @@
 # This is a python file to show how the game works
 import random
 
-CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
-VALUE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0]
-OUTCOME = ['Player wins', 'Banker wins', 'Tie']
-
-# Inclusive range function
-irange = lambda start, end: range(start, end + 1)
 
 def compute_score(hand):
+    VALUE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0]
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     """Compute the score of a hand"""
     total_value = 0
     for card in hand:
@@ -19,11 +15,14 @@ def compute_score(hand):
 
 # functions for play
 def bankerVSplayer(pScore, bScore):
+    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
     if pScore != bScore:
         return OUTCOME[bScore > pScore]
     else:
         return OUTCOME[2]
 def bankerDrawMaybe(bankerS, third, bHand):
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    irange = lambda start, end: range(start, end + 1)
     if (bankerS == 6 and third in [6, 7]) or \
        (bankerS == 5 and third in irange(4, 7)) or \
        (bankerS == 4 and third in irange(2, 7)) or \
@@ -33,11 +32,15 @@ def bankerDrawMaybe(bankerS, third, bHand):
         print('Banker gets a third card:\t' + bHand[2])
 
 def bankerDrawTrue(bScore, bHand):
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    irange = lambda start, end: range(start, end + 1)
     if bScore in irange(0, 5):
         bHand.append(random.choice(CARDS))
         print('Banker gets a third card:\t' + bHand[2])
 
 def checkPlayerScore(pScore, pHand, pThird, bScore, bHand):
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    irange = lambda start, end: range(start, end + 1)
     if pScore in irange(0, 5):
         # Player get's a third card
         pHand.append(random.choice(CARDS))
@@ -51,13 +54,24 @@ def checkPlayerScore(pScore, pHand, pThird, bScore, bHand):
         bankerDrawTrue(bScore, bHand)
 
 def compareScores(pScore, bScore):
+    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
     if pScore != bScore:
         return OUTCOME[bScore > pScore]
     else:
         return OUTCOME[2]
-    
+
+def anyScoreHigh (pScore, bScore):
+    if pScore in [8, 9] or bScore in [8, 9]:
+        return bankerVSplayer(pScore, bScore)
+
 
 def play():
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    VALUE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0]
+    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
+
+    # Inclusive range function
+    irange = lambda start, end: range(start, end + 1)
 
     player_hand = [
         random.choice(CARDS),
@@ -77,9 +91,7 @@ def play():
     print('Banker has score of\t' + str(banker_score))
 
     # Natural
-    if player_score in [8, 9] or banker_score in [8, 9]:
-        return bankerVSplayer(player_score, banker_score)
-
+    anyScoreHigh(player_score, banker_score)
     # Player has low score
     player_third = int
 
