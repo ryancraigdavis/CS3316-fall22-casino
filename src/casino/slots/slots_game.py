@@ -38,23 +38,6 @@ def runForIfContinueOrNot(ans, balance, stake):
     return done
 
 
-def canPlayAgain(addedStr, balance, stake):
-    done = False
-    print(f"You have ${balance} Dollars.")
-    while (done != True):
-        ans = input(f"""Would you like to play {addedStr}?
-        \n\nYes(y)\t\t\tNo(n)""")
-        done = runForIfContinueOrNot(ans.lower(), balance, stake) 
-
-
-def playAgain(addedStr, balance, stake):
-    if balance >= stake:
-        canPlayAgain(addedStr, balance, stake)
-    else:
-        time.sleep(0.5)
-        leave("Can't afford to play!")
-
-
 def whichCherry(secondWheel):
     """Determines which jackpot the player gets from
     CHERRY being on the 1st wheel"""
@@ -133,7 +116,6 @@ def play(balance, stake):
     secondWheel = spinWheel()
     thirdWheel = spinWheel()
     balance = printScore(firstWheel, secondWheel, thirdWheel, balance)
-    playAgain("again", balance, stake)
 
 
 def welcome():
