@@ -1,8 +1,6 @@
 """Tests for bingo_game"""
 import pytest
-import casino.bingo_bac.bingo_game as bingo
-import mock
-
+import src.casino.bingo_bac.bingo_game as bingo
 
 def test_demo():
     actual_result = 0
