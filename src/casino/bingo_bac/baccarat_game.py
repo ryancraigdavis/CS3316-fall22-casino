@@ -105,7 +105,7 @@ def play():
     print('Player has final score of\t' + str(player_score))
     print('Banker has final score of\t' + str(banker_score))
 
-    compareScores(player_score, banker_score)
+    print(compareScores(player_score, banker_score))
 
 
 if __name__ == "__main__":
