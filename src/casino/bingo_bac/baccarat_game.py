@@ -20,6 +20,7 @@ def bankerVSplayer(pScore, bScore):
         return OUTCOME[bScore > pScore]
     else:
         return OUTCOME[2]
+
 def bankerDrawMaybe(bankerS, third, bHand):
     CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     irange = lambda start, end: range(start, end + 1)

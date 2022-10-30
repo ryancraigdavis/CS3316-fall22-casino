@@ -1,6 +1,6 @@
 """Tests for baccarat_game"""
 import pytest
-import casino.bingo_bac.baccarat_game as baccarat
+import src.casino.bingo_bac.baccarat_game as baccarat
 import mock
 
 # variables
@@ -44,3 +44,25 @@ def test_mock_demo(mocker):
 )
 def test_compute_score(input_hand, expected_value):
     assert baccarat.compute_score(input_hand) == expected_value
+
+# Test for banker vs player scores
+@pytest.mark.parametrize("pScore, bScore, expected_winner",[
+    pytest.param(5,2, 'Player wins', id=("pScore = 5, bScore = 2, Player Win")),
+    pytest.param(1,4, 'Banker wins', id=("pScore = 1, bScore = 4, Banker Wins")),
+    pytest.param(2,2, "Tie", id=("pScore = 2, bScore = 2, Tie"))
+])
+
+def test_bankerVSplayer(pScore, bScore, expected_winner):
+    actual_result = baccarat.bankerVSplayer(pScore,bScore)
+    assert actual_result == expected_winner
+
+# # Test for Banker's third draw
+# mocking_bhand = ['A']
+# mocking_drawThird = ['2']
+# @pytest.mark.parametrize("bankerS, third, bhand, expected_result",[
+#     pytest.param(6,6,mocking_bhand, mocking_drawThird, id=("bankerS= 6, third= 6, hand= A"))
+# ])
+#
+# def test_bankerDrawMaybe(bankerS,third,bhand,expected_result):
+#     actual_result = baccarat.bankerDrawMaybe(bankerS,third,mocking_bhand)
+#     assert actual_result == expected_result
