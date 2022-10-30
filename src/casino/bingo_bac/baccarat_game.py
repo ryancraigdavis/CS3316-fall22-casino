@@ -1,4 +1,10 @@
-def compute_baccarot_score(hand):
+# This is a python file to show how the game works
+import random
+
+
+def compute_score(hand):
+    VALUE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0]
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     """Compute the score of a hand"""
     total_value = 0
     for card in hand:
@@ -6,95 +12,100 @@ def compute_baccarot_score(hand):
     return total_value % 10
 
 
-def playBaccarot():
-    """Returns the winner"""
-    player_hand = [random.choice(CARDS), random.choice(CARDS)]
-    banker_hand = [random.choice(CARDS), random.choice(CARDS)]
 
-    player_score = compute_baccarot_score(player_hand)
-    banker_score = compute_baccarot_score(banker_hand)
+# functions for play
+def bankerVSplayer(pScore, bScore):
+    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
+    if pScore != bScore:
+        return OUTCOME[bScore > pScore]
+    else:
+        return OUTCOME[2]
+def bankerDrawMaybe(bankerS, third, bHand):
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    irange = lambda start, end: range(start, end + 1)
+    if (bankerS == 6 and third in [6, 7]) or \
+       (bankerS == 5 and third in irange(4, 7)) or \
+       (bankerS == 4 and third in irange(2, 7)) or \
+       (bankerS == 3 and third != 8) or \
+       (bankerS in [0, 1, 2]):
+        bHand.append(random.choice(CARDS))
+        print('Banker gets a third card:\t' + bHand[2])
 
-    print("Player has cards:\t" + player_hand[0] + "\t" + player_hand[1])
-    print("Player has score of\t" + str(player_score))
-    print("Banker has cards:\t" + banker_hand[0] + "\t" + banker_hand[1])
-    print("Banker has score of\t" + str(banker_score))
+def bankerDrawTrue(bScore, bHand):
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    irange = lambda start, end: range(start, end + 1)
+    if bScore in irange(0, 5):
+        bHand.append(random.choice(CARDS))
+        print('Banker gets a third card:\t' + bHand[2])
 
-    # Natural
-    if player_score in [8, 9] or banker_score in [8, 9]:
-        if player_score != banker_score:
-            return OUTCOME[banker_score > player_score]
-        else:
-            return OUTCOME[2]
-
-    # Player has low score
-    if player_score in irange(0, 5):
+def checkPlayerScore(pScore, pHand, pThird, bScore, bHand):
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    irange = lambda start, end: range(start, end + 1)
+    if pScore in irange(0, 5):
         # Player get's a third card
-        player_hand.append(random.choice(CARDS))
-        player_third = compute_baccarot_score([player_hand[2]])
-        print("Player gets a third card:\t" + player_hand[2])
+        pHand.append(random.choice(CARDS))
+        pThird = compute_score([pHand[2]])
+        print('Player gets a third card:\t' + pHand[2])
 
         # Determine if banker needs a third card
-        if (
-            (banker_score == 6 and player_third in [6, 7])
-            or (banker_score == 5 and player_third in irange(4, 7))
-            or (banker_score == 4 and player_third in irange(2, 7))
-            or (banker_score == 3 and player_third != 8)
-            or (banker_score in [0, 1, 2])
-        ):
-            banker_hand.append(random.choice(CARDS))
-            print("Banker gets a third card:\t" + banker_hand[2])
+        bankerDrawMaybe(bScore, pThird, bHand)
 
-    elif player_score in [6, 7]:
-        if banker_score in irange(0, 5):
-            banker_hand.append(random.choice(CARDS))
-            print("Banker gets a third card:\t" + banker_hand[2])
+    elif pScore in [6, 7]:
+        bankerDrawTrue(bScore, bHand)
 
-    # Compute the scores again and return the outcome
-    player_score = compute_baccarot_score(player_hand)
-    banker_score = compute_baccarot_score(banker_hand)
-
-    print("Player has final score of\t" + str(player_score))
-    print("Banker has final score of\t" + str(banker_score))
-
-    if player_score != banker_score:
-        return OUTCOME[banker_score > player_score]
+def compareScores(pScore, bScore):
+    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
+    if pScore != bScore:
+        return OUTCOME[bScore > pScore]
     else:
         return OUTCOME[2]
 
+def anyScoreHigh (pScore, bScore):
+    if pScore in [8, 9] or bScore in [8, 9]:
+        return bankerVSplayer(pScore, bScore)
 
-# Run main here.
-if __name__ == "__main__":
-    NewCasino = HelloCasino()
-    NewCasino.welcome()
 
-playBingo = False
-if playBingo:
-    pg.init()
-
-    screen = pg.display.set_mode((800, 600))
-    screen_rect = screen.get_rect()
-    clock = pg.time.Clock()
-    done = False
-
-    num = BingoNumber()
-
-    while not done:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                done = True
-        screen.fill((0, 0, 0))
-        num.update()
-        num.draw(screen)
-        pg.display.update()
-        clock.tick(60)
-
-playBac = True
-if playBac:
-    CARDS = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+def play():
+    CARDS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
     VALUE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 0, 0, 0]
-    OUTCOME = ["Player wins", "Banker wins", "Tie"]
+    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
 
     # Inclusive range function
     irange = lambda start, end: range(start, end + 1)
 
-    print(playBaccarot())
+    player_hand = [
+        random.choice(CARDS),
+        random.choice(CARDS)
+    ]
+    banker_hand = [
+        random.choice(CARDS),
+        random.choice(CARDS)
+    ]
+
+    player_score = compute_score(player_hand)
+    banker_score = compute_score(banker_hand)
+
+    print('Player has cards:\t' + player_hand[0] + '\t' + player_hand[1])
+    print('Player has score of\t' + str(player_score))
+    print('Banker has cards:\t' + banker_hand[0] + '\t' + banker_hand[1])
+    print('Banker has score of\t' + str(banker_score))
+
+    # Natural
+    anyScoreHigh(player_score, banker_score)
+    # Player has low score
+    player_third = int
+
+    checkPlayerScore(player_score, player_hand, player_third, banker_score, banker_hand)
+
+    # Compute the scores again and return the outcome
+    player_score = compute_score(player_hand)
+    banker_score = compute_score(banker_hand)
+
+    print('Player has final score of\t' + str(player_score))
+    print('Banker has final score of\t' + str(banker_score))
+
+    compareScores(player_score, banker_score)
+
+
+if __name__ == "__main__":
+    print(play())
