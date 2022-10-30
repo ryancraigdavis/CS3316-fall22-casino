@@ -67,16 +67,24 @@ def test_bankerVSplayer(pScore, bScore, expected_winner):
     assert actual_result == expected_winner
 
 
-# # Test for Banker's third draw
-# mocking_bhand = ['A']
-# mocking_drawThird = ['2']
-# @pytest.mark.parametrize("bankerS, third, bhand, expected_result",[
-#     pytest.param(6,6,mocking_bhand, mocking_drawThird, id=("bankerS= 6, third= 6, hand= A"))
-# ])
-#
-# def test_bankerDrawMaybe(bankerS,third,bhand,expected_result):
-#     actual_result = baccarat.bankerDrawMaybe(bankerS,third,mocking_bhand)
-#     assert actual_result == expected_result
+# Test for Banker's third draw
+@pytest.mark.parametrize("bankerS, third, bhand",[
+    pytest.param(1,3, baccarat_hand, id=("baccarat hand, gets a third card")),
+    pytest.param(3,8, low_hand, id=("low hand, should not get third card")),
+    pytest.param(3,2, low_hand, id=("low hand, should get third card")),
+    pytest.param(4,5, high_hand, id=("high hand, should get third card")),
+    pytest.param(5, 5, normal_hand, id=("normal hand, should get third card"))
+])
+
+def test_bankerDrawMaybe(bankerS,third,bhand):
+    old_bhand = copy.deepcopy(bhand)
+    irange = lambda start, end: range(start, end + 1)
+    if bankerS in irange(0,6) and third in irange(2,7):
+        baccarat.bankerDrawMaybe(bankerS,third,bhand)
+        assert old_bhand is not bhand
+    else:
+        baccarat.bankerDrawMaybe(bankerS,third,bhand)
+        assert old_bhand == bhand
 
 
 @pytest.mark.parametrize("input_hand, input_score", [
