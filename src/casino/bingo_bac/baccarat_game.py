@@ -55,16 +55,18 @@ def checkPlayerScore(pScore, pHand, pThird, bScore, bHand):
     elif pScore in [6, 7]:
         bankerDrawTrue(bScore, bHand)
 
-def compareScores(pScore, bScore):
-    OUTCOME = ['Player wins', 'Banker wins', 'Tie']
-    if pScore != bScore:
-        return OUTCOME[bScore > pScore]
-    else:
-        return OUTCOME[2]
+# def compareScores(pScore, bScore):
+#     OUTCOME = ['Player wins', 'Banker wins', 'Tie']
+#     if pScore != bScore:
+#         return OUTCOME[bScore > pScore]
+#     else:
+#         return OUTCOME[2]
 
 def anyScoreHigh (pScore, bScore):
     if pScore in [8, 9] or bScore in [8, 9]:
         return bankerVSplayer(pScore, bScore)
+    else:
+        return ' '
 
 
 def play():
@@ -106,7 +108,7 @@ def play():
     print('Player has final score of\t' + str(player_score))
     print('Banker has final score of\t' + str(banker_score))
 
-    print(compareScores(player_score, banker_score))
+    print(bankerVSplayer(player_score, banker_score))
 
 
 if __name__ == "__main__":

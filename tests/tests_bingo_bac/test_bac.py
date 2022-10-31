@@ -111,16 +111,21 @@ def test_checkPlayerScore():
     assert actual_result == expected_result
 
 
-def test_compareScores():
-    actual_result = 0
-    expected_result = 0
-    assert actual_result == expected_result
+# def test_compareScores():
+#     actual_result = 0
+#     expected_result = 0
+#     assert actual_result == expected_result
 
-
-def test_anyScoreHigh():
-    actual_result = 0
-    expected_result = 0
-    assert actual_result == expected_result
+# Test for high score
+@pytest.mark.parametrize("pScore, bScore, expected",[
+    pytest.param(8, 3, 'Player wins', id=("pscore>bScore, Player wins")),
+    pytest.param(2,8, 'Banker wins', id=("pScore<bScore, Banker wins")),
+    pytest.param(8,8, 'Tie', id=("pScore=bScore, Tie")),
+    pytest.param(2,3,' ', id=("If pScore and bScore are both low"))
+])
+def test_anyScoreHigh(pScore,bScore,expected):
+    actual_result = baccarat.anyScoreHigh(pScore,bScore)
+    assert actual_result == expected
 
 
 def test_play():
