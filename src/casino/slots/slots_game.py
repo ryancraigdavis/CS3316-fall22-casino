@@ -26,8 +26,8 @@ def leave(message):
 
 def runForIfContinueOrNot(ans, balance, stake):
     if ans =="y":
-        done = True
-        play(balance, stake)
+        done = False
+        play(stake)
     elif ans == "n":
         done = True
         leave("Thanks for playing!")
