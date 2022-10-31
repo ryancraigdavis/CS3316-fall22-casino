@@ -5,21 +5,23 @@ import random
 
 
 
+
 def selectGame():
     while True:
         print(
             "Games:\nteam1Game:1\nteam2game:2\nteam3game:3\nBlackjack:4\nteam5game:5\nQuit:q"
         )
-        selectedGame = input("What game would you like to play?")
+        selectedGame = input_override("What game would you like to play? ")
         print(selectedGame)
         if selectedGame == "4":
             print("Blackjack selected")
             game()
+            break
         elif selectedGame.lower() == "q":
             break
         else:
             print("invalid selection")
-    
+            break
 
 def deal(deck):
     hand = []
@@ -29,7 +31,7 @@ def deal(deck):
         hand.append(card)
     return hand
 def play_again():
-    again = input("Do you want to play again? (Y/N) : ").lower()
+    again = input_override("Do you want to play again? (Y/N) : ").lower()
     if again == "y":
         game()
     else:
@@ -156,16 +158,19 @@ def game():
         print("The dealer is showing a " + str(dealer_hand[0]))
         print("You have a " + str(player_hand) + " for a total of " + str(total(player_hand)))
         blackjack(dealer_hand, player_hand)
-        choice = input("Do you want to [H]it, [S]tand, or [Q]uit: ").lower()
+        choice = input_override("Do you want to [H]it, [S]tand, or [Q]uit: ").lower()
         clear()
         if choice == "h":
             chose_h(player_hand, dealer_hand, deck)
+            break
         elif choice == "s":
             chose_s(player_hand, dealer_hand, deck)
+            break
         elif choice == "q":
             chose_q()
 
-
+def input_override(message):
+    return input(message)
 # Run main here.
 if __name__ == "__main__":
     selectGame()
