@@ -16,7 +16,14 @@ from src.casino.slots.slots_game import welcome as welcome
 
 #def test_leave():
 
-#def test_runForIfContinueOrNot():
+@pytest.mark.parametrize("userInput, testBal, testStake, expectedResult",
+                         [
+                             pytest.param("y", 495, 5, False, id="User isn't done"),
+                             pytest.param("n", 505, 5, True, id="User is done")
+                         ])
+def test_runForIfContinueOrNot(userInput, testBal, testStake, expectedResult):
+    actualResult = continuePrompt(userInput, testBal, testStake)
+    assert actualResult == expectedResult
 
 @pytest.mark.parametrize("testInput, expectedResult",
                          [
@@ -40,8 +47,9 @@ def test_whichCherry(expectedResult, testInput):
                              pytest.param("ORANGE", "ORANGE", "BAR", 10, id="Orange Bar"),
                              pytest.param("PLUM", "PLUM", "BAR", 14, id="Plum Bar"),
                              pytest.param("BELL", "BELL", "BAR", 20, id="Bell Bar"),
-                             pytest.param("CHERRY", "CHERRY", "Bell", 5, id="First 2 Cherry"),
+                             pytest.param("CHERRY", "CHERRY", "BELL", 5, id="First 2 Cherry"),
                              pytest.param("CHERRY", "BAR", "CHERRY", 2, id="First Wheel Cherry"),
+                             pytest.param("ORANGE", "BAR", "PLUM", 0, id="Loss")
                          ])
 def test_winCalc(testInput1, testInput2, testInput3, expectedResult):
     actualResult = winCalc(testInput1, testInput2, testInput3)
