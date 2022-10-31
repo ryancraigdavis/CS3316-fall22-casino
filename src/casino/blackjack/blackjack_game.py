@@ -31,9 +31,6 @@ def deal(deck):
 def play_again():
     again = input("Do you want to play again? (Y/N) : ").lower()
     if again == "y":
-        dealer_hand = []
-        player_hand = []
-
         game()
     else:
         print("Bye!")
@@ -87,20 +84,7 @@ def blackjack(dealer_hand, player_hand):
         print_results(dealer_hand, player_hand)
         print("Sorry, you lose. The dealer got a \n")
         play_again()
-def check_player_wins(dealer_hand, player_hand):
-    if total(player_hand) == 21:
-        print_results(dealer_hand, player_hand)
-        print("Congratulations! You got a Blackjack!\n")
-        play_again()
-    else:
-        pass
-def check_dealer_wins(dealer_hand, player_hand):
-    if total(dealer_hand) == 21:
-        print_results(dealer_hand, player_hand)
-        print("Sorry, you lose. The dealer got 21\n")
-        play_again()
-    else:
-        pass
+
 def check_player_loses(dealer_hand, player_hand):
     if total(player_hand) > 21:
         print_results(dealer_hand, player_hand)
@@ -140,8 +124,7 @@ def check_tie(dealer_hand, player_hand):
 def score(dealer_hand, player_hand):
     check_dealer_busts(dealer_hand, player_hand)
     check_player_loses(dealer_hand, player_hand)
-    check_player_wins(dealer_hand, player_hand)
-    check_dealer_wins(dealer_hand, player_hand)
+    blackjack(dealer_hand, player_hand)
     check_losing_score(dealer_hand, player_hand)
     check_winning_score(dealer_hand, player_hand)
 
