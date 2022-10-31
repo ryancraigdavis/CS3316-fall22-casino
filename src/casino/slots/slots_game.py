@@ -124,7 +124,6 @@ def welcome():
     clear()
     print("Welcome to ")
     print(f"The cost is ${stake} per game.")
-    playAgain('', balance, stake)
 
 
 #uncomment next three lines to play slots (Will be implemented into
