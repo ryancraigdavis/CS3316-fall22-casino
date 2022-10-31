@@ -109,21 +109,23 @@ def spinWheel():
     return  items[rand]
 
 
-def play(balance, stake):
+def play(stake):
+    balance = 500
     balance -= stake
     clear()
     firstWheel = spinWheel()
     secondWheel = spinWheel()
     thirdWheel = spinWheel()
     balance = printScore(firstWheel, secondWheel, thirdWheel, balance)
+    print(f"Your current balance is ${balance}")
 
 
 def welcome():
     stake = 5
-    balance = 500
     clear()
     print("Welcome to ")
     print(f"The cost is ${stake} per game.")
+    play(stake)
 
 
 #uncomment next three lines to play slots (Will be implemented into
