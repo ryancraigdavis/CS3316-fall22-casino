@@ -1,13 +1,6 @@
 import pygame as pg
 import random
 
-pg.init()
-
-screen = pg.display.set_mode((800, 600))
-screen_rect = screen.get_rect()
-clock = pg.time.Clock()
-
-
 class Number:
     def __init__(self):
         self.timer = 0.0
@@ -49,4 +42,9 @@ def playBingo():
 
 
 if __name__ == "__main__":
+    pg.init()
+
+    screen = pg.display.set_mode((800, 600))
+    screen_rect = screen.get_rect()
+    clock = pg.time.Clock()
     playBingo()
