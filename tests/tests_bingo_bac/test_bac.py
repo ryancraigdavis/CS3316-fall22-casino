@@ -105,10 +105,25 @@ def test_bankerDrawTrue(input_hand, input_score):
         assert old_hand == input_hand
 
 
-def test_checkPlayerScore():
-    actual_result = 0
-    expected_result = 0
-    assert actual_result == expected_result
+# Test for checking Player's Score
+mockPTh = int
+@pytest.mark.parametrize("pS,pH,pT,bS,bH",[
+    pytest.param(1,low_hand, mockPTh, 1, low_hand, id=("B&P= lowhand, both should get third card")),
+    pytest.param(1, high_hand, mockPTh, 1, high_hand, id=("B&P= highhand, both should get third")),
+    pytest.param(7, normal_hand, mockPTh, 7, normal_hand, id=("pS= 7, bS=7, nothing happens")),
+    pytest.param(7,baccarat_hand, mockPTh, 2, baccarat_hand, id=("pS=7, bS=5, banker get third"))
+
+])
+def test_checkPlayerScore(pS,pH,pT,bS,bH):
+    old_bhand = copy.deepcopy(bH)
+    old_phand = copy.deepcopy(pH)
+    irange = lambda start, end: range(start, end + 1)
+    if pS in irange(0,5):
+        baccarat.checkPlayerScore(pS,pH,pT,bS,bH)
+        assert old_bhand is not bH and old_phand is not pH
+    else:
+        baccarat.checkPlayerScore(pS,pH,pT,bS,bH)
+        assert old_bhand is not bH or old_phand == pH
 
 
 # def test_compareScores():
