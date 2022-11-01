@@ -1,5 +1,6 @@
 """Tests for baccarat_game"""
 import copy
+import random
 
 import pytest
 import src.casino.bingo_bac.baccarat_game as baccarat
@@ -125,12 +126,6 @@ def test_checkPlayerScore(pS,pH,pT,bS,bH):
         baccarat.checkPlayerScore(pS,pH,pT,bS,bH)
         assert old_bhand is not bH or old_phand == pH
 
-
-# def test_compareScores():
-#     actual_result = 0
-#     expected_result = 0
-#     assert actual_result == expected_result
-
 # Test for high score
 @pytest.mark.parametrize("pScore, bScore, expected",[
     pytest.param(8, 3, 'Player wins', id=("pscore>bScore, Player wins")),
@@ -143,7 +138,11 @@ def test_anyScoreHigh(pScore,bScore,expected):
     assert actual_result == expected
 
 
-def test_play():
-    actual_result = 0
-    expected_result = 0
-    assert actual_result == expected_result
+# def test_play(mocker):
+#     mocker.patch.object(random, "choice").return_value = "4"
+#     # mocker.patch.object(baccarat, "play").return_value = 1
+#     global player_score
+#     player_score = 0
+#     banker_score = 0
+#     baccarat.play(player_score)
+#     assert player_score == 8
