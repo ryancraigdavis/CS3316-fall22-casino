@@ -37,8 +37,5 @@ def test_new_num(mocker):
 
 # def test_something(mocker):
 #     mocker.patch.object(bingo, "Number").return_value = 1
-#     mocker.patch.object(bingo.playBingo(), "done", True)
-#     num = bingo.Number()
-#     assert num == 1
-#
-
+#     mocker.patch.object(pg.event, "get").return_value = pg.QUIT
+#     assert bingo.playBingo() == 0
